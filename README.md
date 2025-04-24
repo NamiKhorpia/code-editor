@@ -20,3 +20,4 @@ Styling: Tailwind CSS
 Editor: CodeMirror (via @uiw/react-codemirror)
 Theme: next-themes for light/dark mode
 
+Access the live demo at : https://code-editor-tau-three.vercel.app/ 
