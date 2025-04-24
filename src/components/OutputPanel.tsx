@@ -2,67 +2,53 @@
 
 "use client";
 
-import { useState } from 'react';
-import { TestCase } from '@/types';
+import { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
 
 interface OutputPanelProps {
-  onRunCode: () => void;
+  // Removed onRunCode since it's unused
 }
 
-export default function OutputPanel({ onRunCode }: OutputPanelProps) {
-  const [results, setResults] = useState<TestCase[]>([]);
-  const [isRunning, setIsRunning] = useState(false);
+export default function OutputPanel({}: OutputPanelProps) {
+  const [output, setOutput] = useState<string>("");
+  const { theme } = useTheme();
 
-  const handleRun = async () => {
-    setIsRunning(true);
-    setResults([]);
-    // Simulate execution delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    // Placeholder test cases
-    setResults([
-      { input: '9\n2 7 11 15', output: '0 1', passed: true },
-      { input: '3\n1 2 3', output: '0 2', passed: false },
-    ]);
-    setIsRunning(false);
-  };
+  useEffect(() => {
+    // Simulate test case execution with a 1-second delay
+    const timer = setInterval(() => {
+      setOutput((prev) => {
+        const newOutput = prev + "Test case executed successfully!\n";
+        return newOutput.length > 100 ? "" : newOutput; // Reset after 100 chars
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
-    <div className="p-4 bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
-      <div className="flex justify-between mb-4">
+    <div className="flex-1 p-4 bg-gray-100 dark:bg-gray-800 overflow-auto">
+      <div className="flex justify-between mb-2">
         <button
-          onClick={handleRun}
-          disabled={isRunning}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-blue-400"
+          onClick={() => setOutput("")}
+          className="px-2 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
         >
-          {isRunning ? 'Running...' : 'Run Code'}
+          Clear Output
         </button>
         <button
-          onClick={handleRun}
-          disabled={isRunning}
-          className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:bg-green-400"
+          disabled
+          className="px-2 py-1 bg-gray-400 text-white rounded cursor-not-allowed"
+        >
+          Run Code
+        </button>
+        <button
+          disabled
+          className="px-2 py-1 bg-gray-400 text-white rounded cursor-not-allowed"
         >
           Run All Tests
         </button>
       </div>
-      <div className="text-sm">
-        {results.length === 0 ? (
-          <p className="text-gray-500">No results yet. Click "Run Code" to see output.</p>
-        ) : (
-          results.map((result, index) => (
-            <div key={index} className="mb-4">
-              <p>
-                <strong>Test Case {index + 1}:</strong> {result.passed ? '✅ Passed' : '❌ Failed'}
-              </p>
-              <p>
-                <strong>Input:</strong> {result.input}
-              </p>
-              <p>
-                <strong>Output:</strong> {result.output}
-              </p>
-            </div>
-          ))
-        )}
-      </div>
+      <pre className="bg-gray-200 dark:bg-gray-900 p-2 rounded text-sm">
+        {output || "No results yet. Click \"Run Code\" to see output."}
+      </pre>
     </div>
   );
 }

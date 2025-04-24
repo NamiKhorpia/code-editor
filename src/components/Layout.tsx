@@ -2,25 +2,25 @@
 
 "use client";
 
-import { useState, useEffect } from 'react';
-import CodeEditor from './CodeEditor';
-import ProblemStatement from './ProblemStatement';
-import OutputPanel from './OutputPanel';
-import ThemeToggle from './ThemeToggle';
-import { languageExtensions } from '@/lib/languages';
-import { Language } from '@/types';
+import { useState, useEffect } from "react";
+import CodeEditor from "./CodeEditor";
+import ProblemStatement from "./ProblemStatement";
+import OutputPanel from "./OutputPanel";
+import ThemeToggle from "./ThemeToggle";
+import { languageExtensions } from "@/lib/languages";
+import { Language } from "@/types";
 
 export default function Layout() {
-  const [language, setLanguage] = useState<Language>('python');
+  const [language, setLanguage] = useState<Language>("python");
   const [code, setCode] = useState<Record<Language, string>>({
-    python: '# Write your Python code here',
-    javascript: '// Write your JavaScript code here',
-    typescript: '// Write your TypeScript code here',
-    go: '// Write your Go code here',
-    php: '// Write your PHP code here',
-    swift: '// Write your Swift code here',
-    rust: '// Write your Rust code here',
-    cpp: '// Write your C/C++ code here',
+    python: "# Write your Python code here",
+    javascript: "// Write your JavaScript code here",
+    typescript: "// Write your TypeScript code here",
+    go: "// Write your Go code here",
+    php: "// Write your PHP code here",
+    swift: "// Write your Swift code here",
+    rust: "// Write your Rust code here",
+    cpp: "// Write your C/C++ code here",
   });
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [isFullScreen, setIsFullScreen] = useState(false);
@@ -46,14 +46,14 @@ export default function Layout() {
 
   const handleReset = () => {
     const initialCode = {
-      python: '# Write your Python code here',
-      javascript: '// Write your JavaScript code here',
-      typescript: '// Write your TypeScript code here',
-      go: '// Write your Go code here',
-      php: '// Write your PHP code here',
-      swift: '// Write your Swift code here',
-      rust: '// Write your Rust code here',
-      cpp: '// Write your C/C++ code here',
+      python: "# Write your Python code here",
+      javascript: "// Write your JavaScript code here",
+      typescript: "// Write your TypeScript code here",
+      go: "// Write your Go code here",
+      php: "// Write your PHP code here",
+      swift: "// Write your Swift code here",
+      rust: "// Write your Rust code here",
+      cpp: "// Write your C/C++ code here",
     };
     setCode((prev) => ({ ...prev, [language]: initialCode[language] }));
     localStorage.setItem(`code_${language}`, initialCode[language]);
@@ -80,7 +80,10 @@ export default function Layout() {
               ))}
             </select>
             <div className="flex items-center space-x-4">
-              <span>Time: {Math.floor(timeElapsed / 60)}:{(timeElapsed % 60).toString().padStart(2, '0')}</span>
+              <span>
+                Time: {Math.floor(timeElapsed / 60)}:
+                {(timeElapsed % 60).toString().padStart(2, "0")}
+              </span>
               <button
                 onClick={handleReset}
                 className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
@@ -100,9 +103,7 @@ export default function Layout() {
         </div>
       ) : (
         <>
-          <div
-            className="w-1/2 h-full overflow-auto bg-gray-50 dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 pl-4"
-          >
+          <div className="w-1/2 h-full overflow-auto bg-gray-50 dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 pl-4">
             <ProblemStatement />
           </div>
           <div className="flex-1 flex flex-col">
@@ -120,7 +121,10 @@ export default function Layout() {
                   ))}
                 </select>
                 <div className="flex items-center space-x-4">
-                  <span>Time: {Math.floor(timeElapsed / 60)}:{(timeElapsed % 60).toString().padStart(2, '0')}</span>
+                  <span>
+                    Time: {Math.floor(timeElapsed / 60)}:
+                    {(timeElapsed % 60).toString().padStart(2, "0")}
+                  </span>
                   <button
                     onClick={handleReset}
                     className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
@@ -139,7 +143,7 @@ export default function Layout() {
               <CodeEditor language={language} onChange={handleCodeChange} value={code[language]} />
             </div>
             <div className="h-[30%] border-t border-gray-200 dark:border-gray-700">
-              <OutputPanel onRunCode={() => {}} />
+              <OutputPanel />
             </div>
           </div>
         </>
