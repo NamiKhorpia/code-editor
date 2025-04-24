@@ -3,15 +3,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useTheme } from "next-themes";
 
-interface OutputPanelProps {
-  // Removed onRunCode since it's unused
-}
-
-export default function OutputPanel({}: OutputPanelProps) {
+export default function OutputPanel() {
   const [output, setOutput] = useState<string>("");
-  const { theme } = useTheme();
 
   useEffect(() => {
     // Simulate test case execution with a 1-second delay
